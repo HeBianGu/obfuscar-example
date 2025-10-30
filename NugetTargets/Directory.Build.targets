@@ -3,49 +3,25 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   
-
-  
   <PropertyGroup>
     <ObfuscateOnBuild>true</ObfuscateOnBuild>
     <ObfuscarConfigPath>$(MSBuildProjectDirectory)\obfuscar.xml</ObfuscarConfigPath>
   </PropertyGroup>
-  
-
-
-  <Target Name="ConfigureObfuscation" BeforeTargets="BeforeBuild">
-    <PropertyGroup Condition="'$(Configuration)' == 'Release' AND '$(ObfuscateOnBuild)' == 'true'">
-      <DebugType>embedded</DebugType>
-      <DebugSymbols>true</DebugSymbols>
-      <!-- 使用绝对路径，且不要以反斜杠结尾 -->
-      <ObfuscationOutputPath>$(TargetDir)Obfuscated</ObfuscationOutputPath>
-    </PropertyGroup>
-  </Target>
 
   <Target Name="RunObfuscation" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND '$(ObfuscateOnBuild)' == 'true'">
     <Message Text="开始代码混淆处理..." Importance="high" />
-
-    <MakeDir Directories="$(ObfuscationOutputPath)" />
-
     <Exec Command="dotnet tool restore" WorkingDirectory="$(TargetDir)" IgnoreExitCode="false" />
-
-    <!-- InPath 末尾加 '.'，避免以 '\' 结尾导致引号被转义；OutPath 已无尾斜杠无需加 '.' -->
     <Exec
       Command="dotnet tool run obfuscar.console $(ObfuscarConfigPath)"
       WorkingDirectory="$(TargetDir)"
       IgnoreExitCode="false" />
-
     <Message Text="混淆完成，输出目录: $(ObfuscationOutputPath)" Importance="high" />
-
-    <!-- 使用 ItemGroup 展开通配符 -->
     <ItemGroup>
       <ObfuscatedDlls Include="$(TargetDir)obfuscated\*.dll" />
     </ItemGroup>
-
-    <!-- 现在拷贝展开后的文件列表 -->
     <Copy SourceFiles="@(ObfuscatedDlls)"
           DestinationFolder="$(TargetDir)"
           OverwriteReadOnlyFiles="true" />
-
     <Message Text="已拷贝文件: @(ObfuscatedDlls)" Importance="high" />
   </Target>
 </Project>

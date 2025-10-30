@@ -4,32 +4,20 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <ObfuscateOnBuild>true</ObfuscateOnBuild>
     <ObfuscarConfigPath>$(MSBuildThisFileDirectory)\obfuscar.xml</ObfuscarConfigPath>
   </PropertyGroup>
 
-  <Target Name="ConfigureObfuscation" BeforeTargets="BeforeBuild">
-    <PropertyGroup Condition="'$(Configuration)' == 'Release' AND '$(ObfuscateOnBuild)' == 'true'">
-      <DebugType>embedded</DebugType>
-      <DebugSymbols>true</DebugSymbols>
-      <!-- 使用绝对路径，且不要以反斜杠结尾 -->
-      <ObfuscationOutputPath>$(TargetDir)Obfuscated</ObfuscationOutputPath>
-    </PropertyGroup>
-  </Target>
-
   <Target Name="RunObfuscation" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' AND '$(ObfuscateOnBuild)' == 'true'">
     <Message Text="开始代码混淆处理..." Importance="high" />
-
-    <MakeDir Directories="$(ObfuscationOutputPath)" />
-
     <Exec Command="dotnet tool restore" WorkingDirectory="$(TargetDir)" IgnoreExitCode="false" />
-
-    <!-- InPath 末尾加 '.'，避免以 '\' 结尾导致引号被转义；OutPath 已无尾斜杠无需加 '.' -->
     <Exec
       Command="dotnet tool run obfuscar.console $(ObfuscarConfigPath)"
       WorkingDirectory="$(TargetDir)"
       IgnoreExitCode="false" />
-
     <Message Text="混淆完成，输出目录: $(ObfuscationOutputPath)" Importance="high" />
   </Target>
 </Project>

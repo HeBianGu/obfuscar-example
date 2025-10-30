@@ -3,7 +3,7 @@
   <Var name="InPath" value="." />
   <Var name="OutPath" value=".\Obfuscated" />
   <Var name="HidePrivateApi" value="true" />
-  <Var name="KeyFile" value=".\test.snk" />
+  <!--<Var name="KeyFile" value=".\test.snk" />-->
 
   <Module file="$(InPath)\NugetClassLibrary2.dll" />
 </Obfuscator>
