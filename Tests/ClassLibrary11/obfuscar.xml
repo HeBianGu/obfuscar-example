@@ -1,0 +1,20 @@
+<?xml version='1.0'?>
+<Obfuscator>
+  <!--<Var name="InPath" value="." />
+  <Var name="OutPath" value=".\Obfuscator_Output" />--><!--
+    <Var name="InPath" value="$(InPath)" />
+    <Var name="OutPath" value="$(OutPath)" />
+  <Var name="KeepPublicApi" value="true" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="KeyFile" value=".\test.snk" />
+
+  --><!--<Module file="$(InPath)\BasicExampleExe.exe" />--><!--
+  <Module file="$(InPath)\ClassLibrary11.dll" />-->
+
+  <Var name="InPath" value="." />
+  <Var name="OutPath" value=".\Obfuscated" />
+  <Var name="HidePrivateApi" value="true" />
+  <Var name="KeyFile" value=".\test.snk" />
+
+  <Module file="$(InPath)\ClassLibrary11.dll" />
+</Obfuscator>
