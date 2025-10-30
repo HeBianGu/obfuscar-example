@@ -1,4 +1,4 @@
-﻿namespace ClassLibrary1
+﻿namespace NugetClassLibrary2
 {
     public class Class1
     {

@@ -16,5 +16,5 @@
   <Var name="HidePrivateApi" value="true" />
   <Var name="KeyFile" value=".\test.snk" />
 
-  <Module file="$(InPath)\*.dll" />
+  <Module file="$(InPath)\NugetClassLibrary2.dll" />
 </Obfuscator>
